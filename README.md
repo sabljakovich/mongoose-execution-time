@@ -66,3 +66,18 @@ mongoose.plugin(logExecutionTime, {
 });
 
 ```
+## Logging additional information
+
+The plugin exposes a method for logging additional information in the same log line as the execution time.
+
+Code example:
+
+```ts
+    await BlogPostModel.find({ title: 'Title' }).additionalLogProperties({ message: 'My custom message'});
+```
+
+Output example:
+
+```
+Query: find in blogposts completed in: 8 ms { additionalLogProperties: { message: 'My custom message' } }
+```
