@@ -1,9 +1,10 @@
 
+# Mongoose execution time
 
 Mongoose plugin for measuring and logging query execution time.
 
 
-```json
+```
 
 Query: find in customers completed in: 7 ms { filter: {} }
 
@@ -43,11 +44,11 @@ interface LogExecutionTimeConfig {
 ```
 
 
-| Option  | Description  | Default  |   |   |
-|---|---|---|---|---|
-| logger  | logger provider  | console   |   |   |
-| loggerLevel  | logger level used by the logger above  | debug  |   |   |
-| loggerVerbosity  | controls how much information gets logged  | High  |   |   |
+| Option  | Description  | Default  |
+|---|---|---|
+| logger  | logger provider  | console   |
+| loggerLevel  | logger level used by the logger above  | debug  |
+| loggerVerbosity  | controls how much information gets logged  | High  |
 
 
 Code example:
