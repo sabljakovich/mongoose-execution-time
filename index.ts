@@ -20,6 +20,7 @@ export function logExecutionTime (targetSchema : any, config ?: LogExecutionTime
         return this;
     };
 
+
     if(!config) {
         config  = {} as LogExecutionTimeConfig;
     }
@@ -29,7 +30,7 @@ export function logExecutionTime (targetSchema : any, config ?: LogExecutionTime
     if(config.loggerLevel) {
         loggerLevel = config.loggerLevel;
     }
-    if(config.loggerVerbosity) {
+    if(config.loggerVerbosity != null) {
         loggerVerbosity = config.loggerVerbosity;
     }
 
@@ -93,7 +94,6 @@ function loggingFunction(
             logProperties.update = update
         }
     }
-
 
     if(additionalLogProperties) {
         logProperties = logProperties
