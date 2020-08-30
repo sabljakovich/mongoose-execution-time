@@ -3,9 +3,13 @@
 
 Mongoose plugin for measuring and logging query execution time.
 
-
+```sh
+npm i mongoose-execution-time
 ```
 
+Output example:
+
+```
 Query: find in customers completed in: 7 ms { filter: {} }
 
 Query: find in blogposts completed in: 4 ms { filter: { title: 'Post 1' },
