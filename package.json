@@ -1,6 +1,6 @@
 {
   "name": "mongoose-execution-time",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Mongoose plugin for measuring and logging query execution time",
   "main": "dist/index.js",
   "scripts": {
@@ -18,5 +18,7 @@
   "devDependencies": {
     "typescript": "^3.9.5"
   },
-  "repository": {}
+  "repository": {
+    "url": "https://github.com/sabljakovich/mongoose-execution-time/"
+  }
 }

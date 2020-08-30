@@ -20,13 +20,10 @@ Query: estimatedDocumentCount in blogposts completed in: 3 ms { filter: {} }
 ## How to use
 
 ```js
-
 const mongoose = require('mongoose');
 const { logExecutionTime } = require('mongoose-execution-time');
 
-
 mongoose.plugin(logExecutionTime);
-
 ```
 
 
@@ -54,17 +51,13 @@ interface LogExecutionTimeConfig {
 Code example:
 
 ```js
-
-
 const mongoose = require('mongoose');
 const { logExecutionTime, LoggerVerbosity } = require('mongoose-execution-time');
-
 
 mongoose.plugin(logExecutionTime, {
     loggerVerbosity: LoggerVerbosity.Normal,
     loggerLevel: 'info'
 });
-
 ```
 ## Logging additional information
 
@@ -73,7 +66,7 @@ The plugin exposes a method for logging additional information in the same log l
 Code example:
 
 ```ts
-    await BlogPostModel.find({ title: 'Title' }).additionalLogProperties({ message: 'My custom message'});
+await BlogPostModel.find({ title: 'Title' }).additionalLogProperties({ message: 'My custom message'});
 ```
 
 Output example:
