@@ -1,9 +1,7 @@
-
-
 export interface LogExecutionTimeConfig {
-    logger: any;
-    loggerLevel: string;
-    loggerVerbosity: LoggerVerbosity
+    logger?: any;
+    loggerLevel?: string;
+    loggerVerbosity?: LoggerVerbosity
 }
 
 export enum LoggerVerbosity  {
@@ -15,7 +13,7 @@ let logger : any = console;
 let loggerLevel: string = 'debug';
 let loggerVerbosity : LoggerVerbosity = LoggerVerbosity.High;
 
-export function logExecutionTimePlugin (targetSchema : any, config ?: LogExecutionTimeConfig) {
+export function logExecutionTime (targetSchema : any, config ?: LogExecutionTimeConfig) {
 
     targetSchema.query.additionalLogProperties = function(additionalProperties: Object | string | number | boolean) {
         this.__additionalProperties = additionalProperties;
@@ -35,8 +33,19 @@ export function logExecutionTimePlugin (targetSchema : any, config ?: LogExecuti
         loggerVerbosity = config.loggerVerbosity;
     }
 
-    // TODO: Support more methods
-    const targetMethods = ['find', 'findOne']
+    const targetMethods = [
+        'find',
+        'findOne',
+        'count',
+        'countDocuments',
+        'estimatedDocumentCount',
+        'findOneAndUpdate',
+        'findOneAndRemove',
+        'findOneAndDelete',
+        'deleteOne',
+        'deleteMany',
+        'remove',
+    ]
 
     targetMethods.forEach( method => {
         targetSchema.pre(method, preQueryHook);
@@ -49,25 +58,42 @@ function preQueryHook() {
     this.__startTime = Date.now();
 }
 function postQueryHook() {
+
     // @ts-ignore
-    if (this.__startTime != null) {
-        // @ts-ignore
-        loggingFunction(this.op, this._collection.collectionName, Date.now() - this.__startTime, this._conditions, this.options, this.__additionalProperties)
+    const target = this;
+
+    if (target.__startTime != null) {
+        loggingFunction(
+            target.op,
+            target._collection.collectionName,
+            Date.now() - target.__startTime,
+            target._conditions,
+            target._update,
+            target.__additionalProperties
+        )
     }
 }
-
-// TODO: options
 function loggingFunction(
     operation: string,
     collectionName: string,
     executionTimeMS: number,
     filter: Object | null,
-    options: Object,
+    update: Object | null,
     additionalLogProperties: any) {
 
-    let logProperties: any = loggerVerbosity == LoggerVerbosity.High
-        ? { filter, options }
-        : null
+    let logProperties: any = null;
+
+    if(loggerVerbosity == LoggerVerbosity.High) {
+
+        logProperties = {
+            filter
+        }
+
+        if(update) {
+            logProperties.update = update
+        }
+    }
+
 
     if(additionalLogProperties) {
         logProperties = logProperties
