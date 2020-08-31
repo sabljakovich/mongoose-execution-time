@@ -78,3 +78,30 @@ Output example:
 ```
 Query: find in blogposts completed in: 8 ms { additionalLogProperties: { message: 'My custom message' } }
 ```
+
+## Log message configuration
+
+If the default logger formatting or style doesn't fit your needs, it can be adjusted by providing a custom logger function.
+
+Code example:
+
+```ts
+const mongoose = require('mongoose');
+const { logExecutionTime } = require('mongoose-execution-time');
+
+mongoose.plugin(logExecutionTime, {
+    loggerFunction: (operation, collectionName, executionTimeMS, filter, update, additionalLogProperties) => {
+        console.log(`My custom logger function | ${operation} | ${collectionName} | ${executionTimeMS}`, { filter, update, additionalLogProperties })
+    }
+});
+```
+
+Output example:
+
+```
+My custom logger function | find | blogposts | 4 {
+  filter: { title: 'Post 1' },
+  update: undefined,
+  additionalLogProperties: { bruh: 1 }
+}
+```
