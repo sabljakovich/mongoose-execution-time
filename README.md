@@ -40,7 +40,8 @@ The plugin can be easily adjusted via the following configuration options.
 interface LogExecutionTimeConfig {
     logger?: any;
     loggerLevel?: string;
-    loggerVerbosity?: LoggerVerbosity
+    loggerVerbosity?: LoggerVerbosity;
+    loggerFunction?: LoggerFunction;
 }
 ```
 
@@ -50,6 +51,7 @@ interface LogExecutionTimeConfig {
 | logger  | logger provider  | console   |
 | loggerLevel  | logger level used by the logger above  | debug  |
 | loggerVerbosity  | controls how much information gets logged  | High  |
+| loggerFunction | for full control over how the log gets written | N/A |
 
 
 Code example:
