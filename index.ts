@@ -61,6 +61,7 @@ export function logExecutionTime (targetSchema : any, config ?: LogExecutionTime
         'deleteOne',
         'deleteMany',
         'remove',
+        'aggregate',
     ]
 
     targetMethods.forEach( method => {
@@ -79,9 +80,11 @@ function postQueryHook() {
     const target = this;
 
     if (target.__startTime != null) {
+        const op = target.constructor.name === 'Aggregate' ? 'aggregate' : target.op;
+        const collectionName = target._collection ? target._collection.collectionName : target._model.collection.collectionName;
         loggerFunction(
-            target.op,
-            target._collection.collectionName,
+            op,
+            collectionName,
             Date.now() - target.__startTime,
             target._conditions,
             target._update,
