@@ -61,6 +61,8 @@ const run = async () => {
     await BlogPostModel.deleteMany({ title: 'Post 1' })
     // await BlogPostModel.remove({ title: 'Post 1' })
 
+    await BlogPostModel.aggregate([{$match: {title: 'Post 1'}}])
+    await BlogPostModel.aggregate([{ $match: { title: 'Post 1' } }, { $project: { title: 1 } }])
     console.log('Completed')
 }
 
