@@ -19,6 +19,13 @@ Query: findOne in blogposts completed in: 4 ms { filter: {} }
 
 Query: estimatedDocumentCount in blogposts completed in: 3 ms { filter: {} }
 
+Query: aggregate in blogposts completed in: 1 ms { aggregatePipeline: '[{"$match":{"title":"Post 1"}}]' }
+
+Query: aggregate in blogposts completed in: 1 ms {
+  aggregatePipeline: '[{"$match":{"title":"Post 1"}},{"$project":{"title":1}}]'
+}
+
+
 ```
 
 ## How to use
@@ -92,8 +99,8 @@ const mongoose = require('mongoose');
 const { logExecutionTime } = require('mongoose-execution-time');
 
 mongoose.plugin(logExecutionTime, {
-    loggerFunction: (operation, collectionName, executionTimeMS, filter, update, additionalLogProperties) => {
-        console.log(`My custom logger function | ${operation} | ${collectionName} | ${executionTimeMS}`, { filter, update, additionalLogProperties })
+    loggerFunction: (operation, collectionName, executionTimeMS, filter, update, additionalLogProperties, aggregationPipeline) => {
+        console.log(`My custom logger function | ${operation} | ${collectionName} | ${executionTimeMS}`, { filter, update, additionalLogProperties, aggregationPipeline })
     }
 });
 ```
@@ -105,5 +112,6 @@ My custom logger function | find | blogposts | 4 {
   filter: { title: 'Post 1' },
   update: undefined,
   additionalLogProperties: { bruh: 1 }
+  aggregationPipeline: null
 }
 ```

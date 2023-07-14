@@ -1,6 +1,6 @@
 {
   "name": "mongoose-execution-time",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "description": "Mongoose plugin for measuring and logging query execution time",
   "main": "dist/index.js",
   "scripts": {
@@ -11,12 +11,14 @@
     "mongoose",
     "mongodb",
     "database",
-    "query execution time"
+    "query execution time",
+    "logging",
+    "query time"
   ],
   "author": "Hamza Sabljakovic <sabljakovich.hamza@gmail.com>",
   "license": "MIT",
   "devDependencies": {
-    "typescript": "^4"
+    "typescript": "^5.1.6"
   },
   "repository": {
     "url": "https://github.com/sabljakovich/mongoose-execution-time/"

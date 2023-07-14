@@ -11,6 +11,6 @@
   "license": "ISC",
   "dependencies": {
     "mongoose": "^5.9.20",
-    "mongoose-execution-time": "^1.0.2"
+    "mongoose-execution-time": "1.1.0"
   }
 }

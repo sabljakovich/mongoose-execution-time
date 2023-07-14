@@ -16,7 +16,8 @@ type LoggerFunction = (
     executionTimeMS: number,
     filter: Object | null,
     update: Object | null,
-    additionalLogProperties: any
+    additionalLogProperties: any,
+    aggregationPipeline?: Array<Object> | null | undefined,
     ) => void;
 
 
@@ -80,15 +81,18 @@ function postQueryHook() {
     const target = this;
 
     if (target.__startTime != null) {
+
         const op = target.constructor.name === 'Aggregate' ? 'aggregate' : target.op;
         const collectionName = target._collection ? target._collection.collectionName : target._model.collection.collectionName;
+
         loggerFunction(
             op,
             collectionName,
             Date.now() - target.__startTime,
             target._conditions,
             target._update,
-            target.__additionalProperties
+            target.__additionalProperties,
+            target._pipeline
         )
     }
 }
@@ -98,18 +102,25 @@ function defaultLoggingFunction(
     executionTimeMS: number,
     filter: Object | null,
     update: Object | null,
-    additionalLogProperties: any) {
+    additionalLogProperties: any,
+    aggregationPipeline: Array<Object> | null | undefined) {
 
     let logProperties: any = null;
 
     if(loggerVerbosity == LoggerVerbosity.High) {
 
-        logProperties = {
-            filter
+        logProperties = {}
+
+        if(filter) {
+            logProperties.filter = filter
         }
 
         if(update) {
             logProperties.update = update
+        }
+
+        if(aggregationPipeline) {
+            logProperties.aggregationPipeline = JSON.stringify(aggregationPipeline)
         }
     }
 
