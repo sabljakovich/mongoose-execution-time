@@ -2,7 +2,8 @@ export interface LogExecutionTimeConfig {
     logger?: any;
     loggerLevel?: string;
     loggerVerbosity?: LoggerVerbosity,
-    loggerFunction?: LoggerFunction
+    loggerFunction?: LoggerFunction,
+    loggerPropertiesEnabled?: boolean,
 }
 
 export enum LoggerVerbosity  {
