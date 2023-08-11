@@ -2,7 +2,8 @@ export interface LogExecutionTimeConfig {
     logger?: any;
     loggerLevel?: string;
     loggerVerbosity?: LoggerVerbosity,
-    loggerFunction?: LoggerFunction
+    loggerFunction?: LoggerFunction,
+    loggerPropertiesEnabled?: boolean,
 }
 
 export enum LoggerVerbosity  {
@@ -25,7 +26,8 @@ let logger : any = console;
 let loggerLevel: string = 'debug';
 let loggerVerbosity : LoggerVerbosity = LoggerVerbosity.High;
 let loggerFunction : LoggerFunction = defaultLoggingFunction;
-
+let loggerPropertiesEnabled = true;
+    
 export function logExecutionTime (targetSchema : any, config ?: LogExecutionTimeConfig) {
 
     targetSchema.query.additionalLogProperties = function(additionalProperties: Object | string | number | boolean) {
@@ -48,6 +50,10 @@ export function logExecutionTime (targetSchema : any, config ?: LogExecutionTime
 
     if(config.loggerFunction) {
         loggerFunction = config.loggerFunction;
+    }
+
+    if (config.loggerPropertiesEnabled) {
+        loggerPropertiesEnabled = config.loggerPropertiesEnabled;
     }
 
     const targetMethods = [
@@ -130,7 +136,13 @@ function defaultLoggingFunction(
             : { additionalLogProperties }
     }
 
-    logger[loggerLevel](`Query: ${operation} in ${collectionName} completed in: ${executionTimeMS} ms`, logProperties)
+    const loggerMessage = `Query: ${operation} in ${collectionName} completed in: ${executionTimeMS} ms`;
+
+    if (!loggerPropertiesEnabled) {
+        logger[loggerLevel](loggerMessage);
+    } else {
+        logger[loggerLevel](loggerMessage, logProperties);
+    }    
 }
 
 
