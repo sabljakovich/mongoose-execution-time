@@ -73,7 +73,7 @@ mongoose.plugin(logExecutionTime, {
 ```
 ## Do not want filter/aggregatePipeline information logged?
 
-Simply set the loggerVerbosity to LoggerVerbosity.Normal in the plugin configuration.
+Simply set the `loggerVerbosity` to `LoggerVerbosity.Normal` in the plugin configuration.
 
 ```js
 const mongoose = require('mongoose');
