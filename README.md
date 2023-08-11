@@ -3,13 +3,13 @@
 
 Mongoose plugin for measuring and logging query execution time.
 
-```sh
+```bash
 npm i mongoose-execution-time
 ```
 
 Output example:
 
-```
+```sh
 Query: find in customers completed in: 7 ms { filter: {} }
 
 Query: find in blogposts completed in: 4 ms { filter: { title: 'Post 1' },
@@ -65,6 +65,18 @@ Code example:
 
 ```js
 const mongoose = require('mongoose');
+const { logExecutionTime } = require('mongoose-execution-time');
+
+mongoose.plugin(logExecutionTime, {
+    loggerLevel: 'info'
+});
+```
+## Do not want filter/aggregatePipeline information logged?
+
+Simply set the loggerVerbosity to LoggerVerbosity.Normal in the plugin configuration.
+
+```js
+const mongoose = require('mongoose');
 const { logExecutionTime, LoggerVerbosity } = require('mongoose-execution-time');
 
 mongoose.plugin(logExecutionTime, {
@@ -72,6 +84,7 @@ mongoose.plugin(logExecutionTime, {
     loggerLevel: 'info'
 });
 ```
+
 ## Logging additional information
 
 The plugin exposes a method for logging additional information in the same log line as the execution time.

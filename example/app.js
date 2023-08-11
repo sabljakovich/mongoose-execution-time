@@ -1,10 +1,11 @@
 const mongoose = require('mongoose');
-const { logExecutionTime } = require('mongoose-execution-time');
+const { logExecutionTime, LoggerVerbosity } = require('mongoose-execution-time');
 
 mongoose.plugin(logExecutionTime, {
     // loggerFunction: (operation, collectionName, executionTimeMS, filter, update, additionalLogProperties) => {
     //     console.log(`My custom logger function | ${operation} | ${collectionName} | ${executionTimeMS}`, { filter, update, additionalLogProperties })
     // }
+    // loggerVerbosity: LoggerVerbosity.Normal,
 });
 
 const Schema = mongoose.Schema;
