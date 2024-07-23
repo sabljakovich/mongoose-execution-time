@@ -18,6 +18,7 @@ type LoggerFunction = (
     update: Object | null,
     additionalLogProperties: any,
     aggregationPipeline?: Array<Object> | null | undefined,
+    queryStack?: String | null | undefined
     ) => void;
 
 
@@ -74,6 +75,16 @@ export function logExecutionTime (targetSchema : any, config ?: LogExecutionTime
 function preQueryHook() {
     // @ts-ignore
     this.__startTime = Date.now();
+    // Capture stack trace
+    const err = new Error();
+    // @ts-ignore
+    Error.captureStackTrace(err);
+    let stack = err.stack;
+    if(typeof stack=='string' && stack.search('Error')==0) {
+        stack = stack.replace('Error', 'Trace');
+    }
+    // @ts-ignore
+    this.__queryStack = stack;
 }
 function postQueryHook() {
 
@@ -92,7 +103,8 @@ function postQueryHook() {
             target._conditions,
             target._update,
             target.__additionalProperties,
-            target._pipeline
+            target._pipeline,
+            target.__queryStack
         )
     }
 }
@@ -103,7 +115,8 @@ function defaultLoggingFunction(
     filter: Object | null,
     update: Object | null,
     additionalLogProperties: any,
-    aggregationPipeline: Array<Object> | null | undefined) {
+    aggregationPipeline: Array<Object> | null | undefined,
+    queryStack: String | null | undefined) {
 
     let logProperties: any = null;
 
@@ -121,6 +134,10 @@ function defaultLoggingFunction(
 
         if(aggregationPipeline) {
             logProperties.aggregationPipeline = JSON.stringify(aggregationPipeline)
+        }
+
+        if(queryStack){
+            logProperties.queryStack = queryStack
         }
     }
 
